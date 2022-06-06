@@ -30,14 +30,14 @@
 
 .facets-collapsed:after {
 	font-size: larger;
-	content: '\002B';
+	content: "\2212";
 	float: right;
 	margin-left: 5px;
 }
 
 .facets-collapsible:after {
 	font-size: larger;
-	content: "\2212";
+	content: '\002B';
 	float: right;
 	margin-left: 5px;
 }
