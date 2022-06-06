@@ -23,7 +23,7 @@
 	width: 100%;
 	text-align: center;
 	font-weight: bold;
-	color: white;
+	color: black;
 	margin-bottom: 0;
 	padding: 10px;
 }
@@ -65,8 +65,8 @@
 	/* We first create a flex layout context */
 	display: flex;
 
-	/* Then we define the flow direction 
-	 and if we allow the items to wrap 
+	/* Then we define the flow direction
+	 and if we allow the items to wrap
 	*/
 	flex-flow: row wrap;
 
