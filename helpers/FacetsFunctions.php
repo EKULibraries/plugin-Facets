@@ -27,7 +27,7 @@
 		// Build the select query.
 		$subQuery = $table->getSelect();
 		$subQuery->where($whereSubset);
-		
+
 		$select = "SELECT `" . $extraType . "`, COUNT(id) AS count FROM (" . $subQuery . ") foo GROUP BY `" . $extraType . "` ORDER BY " . $orderBy;
 
 		return $table->fetchObjects($select);
@@ -55,7 +55,7 @@
 			// Remove single entries if required
 			if ($hideSingleEntries && count(array_filter($facetExtras, 'isNotSingleExtra')) > FACETS_MINIMUM_AMOUNT) {
 				$facetExtras = array_filter($facetExtras, "isNotSingleExtra");
-			}			
+			}
 
 			$addOptions = false;
 			// Build first part of the select tag
@@ -108,7 +108,7 @@
 			// Remove single entries if required
 			if ($hideSingleEntries && count(array_filter($facetExtras, 'isNotSingleExtra')) > FACETS_MINIMUM_AMOUNT) {
 				$facetExtras = array_filter($facetExtras, "isNotSingleExtra");
-			}			
+			}
 
 			$countCheckboxes = 0;
 			$html = '<div>';
@@ -134,7 +134,7 @@
 					$countCheckboxes++;
 				}
 			}
-			
+
 			if ($hidingSeparator) {
 				$html .= "</div>";
 				$html .= "<a id=\"facet-extra-link-extras\" class=\"facet-visibility-toggle\" data-element-id=\"extras\">" . __('show more') . "</a>";
@@ -147,7 +147,7 @@
 
 		return $html;
 	}
-	
+
 	/**
 	 * Return list of objects associated to extra parameters (user, public, featured).
 	 *
@@ -197,14 +197,14 @@
 		if ($users = getObjectsForUser($recordType, $subsetSQL, $sortOrder)) {
 			// Build array
 			$facetUsers = buildUsersArray($users);
-			
+
 			// Stores data for selected user, if any
 			$selectedUser = getSelectedUser($facetUsers);
 
 			// Remove single entries if required
 			if ($hideSingleEntries && count(array_filter($facetUsers, 'isNotSingleExtra')) > FACETS_MINIMUM_AMOUNT) {
 				$facetUsers = array_filter($facetUsers, "isNotSingleExtra");
-			}			
+			}
 
 			$addOptions = false;
 			// Build first part of the select tag
@@ -248,14 +248,14 @@
 		if ($users = getObjectsForUser($recordType, $subsetSQL, $sortOrder)) {
 			// Build array
 			$facetUsers = buildUsersArray($users);
-			
+
 			// Store data for selected user, if any
 			$selectedUser = getSelectedUser($facetUsers);
 
 			// Remove single entries if required
 			if ($hideSingleEntries && count(array_filter($facetUsers, 'isNotSingleExtra')) > FACETS_MINIMUM_AMOUNT) {
 				$facetUsers = array_filter($facetUsers, "isNotSingleExtra");
-			}			
+			}
 
 			$countCheckboxes = 0;
 			$html = '<div>';
@@ -275,13 +275,13 @@
 						$html .= "<div class=\"hidden\" id=\"facet-extra-values-users\">";
 						$hidingSeparator = true;
 					}
-					
+
 					$url = getFieldUrl($recordType, 'user', $user['id']);
 					$html .= "<div class=\"facet-checkbox\"><input type=\"checkbox\" value=\"" . trim($user['name']) . "\" data-url=\"" . $url . "\"><label>" . trim(html_escape($user['name'])) . ($showPopularity ? "<span class=\"facet-checkbox-count\"> (" . $user['count'] . ")</span>" : "") . "</label></div>";
 					$countCheckboxes++;
 				}
 			}
-			
+
 			if ($hidingSeparator) {
 				$html .= "</div>";
 				$html .= "<a id=\"facet-extra-link-users\" class=\"facet-visibility-toggle\" data-element-id=\"users\">" . __('show more') . "</a>";
@@ -294,7 +294,7 @@
 
 		return $html;
 	}
-	
+
 	/**
 	 * Return list of objects associated to tag.
 	 *
@@ -311,7 +311,7 @@
 		} else {
 			$orderBy = array('name ASC');
 		}
-		
+
 		// Get the database.
 		$db = get_db();
 		// Get the table.
@@ -321,7 +321,7 @@
 		$table->filterByTagType($select, 'Item');
 		$select->where($whereSubset);
 		$select->order($orderBy);
-		
+
 		return $table->fetchObjects($select);
 	}
 
@@ -338,14 +338,14 @@
 		if ($tags = getObjectsForTag($subsetSQL, $sortOrder)) {
 			// Build array
 			$facetTags = buildTagsArray($tags);
-			
+
 			// Stores data for selected tag, if any
 			$selectedTagName = (isset($_GET['tags']) ? $_GET['tags'] : '');
 
 			// Remove single entries if required
 			if ($hideSingleEntries && count(array_filter($facetTags, 'isNotSingleExtra')) > FACETS_MINIMUM_AMOUNT) {
 				$facetTags = array_filter($facetTags, "isNotSingleExtra");
-			}			
+			}
 
 			$addOptions = false;
 			// Build first part of the select tag
@@ -388,7 +388,7 @@
 		if ($tags = getObjectsForTag($subsetSQL, $sortOrder)) {
 			// Build array
 			$facetTags = buildTagsArray($tags);
-			
+
 			// Stores data for selected tags, if any
 			$selectedTags = (isset($_GET['tags']) ? $_GET['tags'] : '');
 			$selectedTagNames = explode(option('tag_delimiter'), $selectedTags);
@@ -396,7 +396,7 @@
 			// Remove single entries if required
 			if ($hideSingleEntries && count(array_filter($facetTags, 'isNotSingleExtra')) > FACETS_MINIMUM_AMOUNT) {
 				$facetTags = array_filter($facetTags, "isNotSingleExtra");
-			}			
+			}
 
 			$countCheckboxes = 0;
 			$html = '<div>';
@@ -419,13 +419,13 @@
 						$html .= "<div class=\"hidden\" id=\"facet-extra-values-tags\">";
 						$hidingSeparator = true;
 					}
-					
+
 					$url = getFieldUrl('item', 'tags', $tag['name']);
 					$html .= "<div class=\"facet-checkbox\"><input type=\"checkbox\" value=\"" . trim($tag['name']) . "\" data-url=\"" . $url . "\"><label>" . trim(html_escape($tag['name'])) . ($showPopularity ? "<span class=\"facet-checkbox-count\"> (" . $tag['count'] . ")</span>" : "") . "</label></div>";
 					$countCheckboxes++;
 				}
 			}
-			
+
 			if ($hidingSeparator) {
 				$html .= "</div>";
 				$html .= "<a id=\"facet-extra-link-tags\" class=\"facet-visibility-toggle\" data-element-id=\"tags\">" . __('show more') . "</a>";
@@ -438,7 +438,7 @@
 
 		return $html;
 	}
-	
+
 	/**
 	 * Return list of objects associated to collection.
 	 *
@@ -448,7 +448,7 @@
 	function getObjectsForCollection($subsetSQL) {
 		// Create Where clause
 		$whereSubset = createWhereSubsetClause('item', $subsetSQL);
-		
+
 		// Get the database.
 		$db = get_db();
 		// Get the table.
@@ -476,14 +476,14 @@
 		if ($collections = getObjectsForCollection($subsetSQL, $sortOrder)) {
 			// Build array
 			$facetCollections = buildCollectionsArray($collections);
-			
+
 			// Store data for selected collection, if any
 			$selectedCollection = getSelectedCollection($facetCollections);
 
 			// Remove single entries if required
 			if ($hideSingleEntries && count(array_filter($facetCollections, 'isNotSingleExtra')) > FACETS_MINIMUM_AMOUNT) {
 				$facetCollections = array_filter($facetCollections, "isNotSingleExtra");
-			}			
+			}
 
 			// Sort array (have to do it now instead than in select because of the way we get the Collection name)
 			$facetCollections = sortCollections($facetCollections, $sortOrder);
@@ -530,14 +530,14 @@
 		if ($collections = getObjectsForCollection($subsetSQL, $sortOrder)) {
 			// Build array
 			$facetCollections = buildCollectionsArray($collections);
-			
+
 			// Store data for selected collection, if any
 			$selectedCollection = getSelectedCollection($facetCollections);
 
 			// Remove single entries if required
 			if ($hideSingleEntries && count(array_filter($facetCollections, 'isNotSingleExtra')) > FACETS_MINIMUM_AMOUNT) {
 				$facetCollections = array_filter($facetCollections, "isNotSingleExtra");
-			}			
+			}
 
 			// Sort array (have to do it now instead than in select because of the way we get the Collection's name)
 			$facetCollections = sortCollections($facetCollections, $sortOrder);
@@ -560,13 +560,13 @@
 						$html .= "<div class=\"hidden\" id=\"facet-extra-values-collections\">";
 						$hidingSeparator = true;
 					}
-					
+
 					$url = getFieldUrl('item', 'collection', $collection['id']);
 					$html .= "<div class=\"facet-checkbox\"><input type=\"checkbox\" value=\"" . trim($collection['name']) . "\" data-url=\"" . $url . "\"><label>" . trim(html_escape($collection['name'])) . ($showPopularity ? "<span class=\"facet-checkbox-count\"> (" . $collection['count'] . ")</span>" : "") . "</label></div>";
 					$countCheckboxes++;
 				}
 			}
-			
+
 			if ($hidingSeparator) {
 				$html .= "</div>";
 				$html .= "<a id=\"facet-extra-link-collections\" class=\"facet-visibility-toggle\" data-element-id=\"collections\">" . __('show more') . "</a>";
@@ -597,7 +597,7 @@
 		} else {
 			$orderBy = array('name ASC');
 		}
-		
+
 		// Get the database.
 		$db = get_db();
 		// Get the table.
@@ -609,7 +609,7 @@
 			->where($whereSubset)
 			->group('item_types.id')
 			->order($orderBy);
-			
+
 		return $table->fetchObjects($select);
 	}
 
@@ -626,14 +626,14 @@
 		if ($itemTypes = getObjectsForItemType($subsetSQL, $sortOrder)) {
 			// Build array
 			$facetItemTypes = buildItemTypesArray($itemTypes);
-					
+
 			// Store data for selected item type, if any
 			$selectedItemType = getSelectedItemType($facetItemTypes);
 
 			// Remove single entries if required
 			if ($hideSingleEntries && count(array_filter($facetItemTypes, 'isNotSingleExtra')) > FACETS_MINIMUM_AMOUNT) {
 				$facetItemTypes = array_filter($facetItemTypes, "isNotSingleExtra");
-			}			
+			}
 
 			$addOptions = false;
 			// Build first part of the select tag
@@ -676,14 +676,14 @@
 		if ($itemTypes = getObjectsForItemType($subsetSQL, $sortOrder)) {
 			// Build array
 			$facetItemTypes = buildItemTypesArray($itemTypes);
-					
+
 			// Store data for selected item type, if any
 			$selectedItemType = getSelectedItemType($facetItemTypes);
 
 			// Remove single entries if required
 			if ($hideSingleEntries && count(array_filter($facetItemTypes, 'isNotSingleExtra')) > FACETS_MINIMUM_AMOUNT) {
 				$facetItemTypes = array_filter($facetItemTypes, "isNotSingleExtra");
-			}			
+			}
 
 			$countCheckboxes = 0;
 			$html = '<div>';
@@ -703,13 +703,13 @@
 						$html .= "<div class=\"hidden\" id=\"facet-extra-values-item-types\">";
 						$hidingSeparator = true;
 					}
-					
+
 					$url = getFieldUrl('item', 'type', $itemType['id']);
 					$html .= "<div class=\"facet-checkbox\"><input type=\"checkbox\" value=\"" . trim($itemType['name']) . "\" data-url=\"" . $url . "\"><label>" . trim(html_escape($itemType['name'])) . ($showPopularity ? "<span class=\"facet-checkbox-count\"> (" . $itemType['count'] . ")</span>" : "") . "</label></div>";
 					$countCheckboxes++;
 				}
 			}
-			
+
 			if ($hidingSeparator) {
 				$html .= "</div>";
 				$html .= "<a id=\"facet-extra-link-item-types\" class=\"facet-visibility-toggle\" data-element-id=\"item-types\">" . __('show more') . "</a>";
@@ -722,7 +722,7 @@
 
 		return $html;
 	}
-	
+
 	/**
 	 * Return list of objects associated to element.
 	 *
@@ -737,10 +737,10 @@
 		// Create Where clauses
 		$whereRecordType = createWhereRecordTypeClause($recordType);
 		$whereSubset = createWhereSubsetClause($recordType, $subsetSQL);
-		
+
 		// Create the columns, groupBy and orderBy clauses
 		if ($isDate) {
-			$columns1 = array('SUBSTR(element_texts.text, 1, 4) AS year');
+			$columns1 = array('element_texts.text AS year');
 			$columns2 = 'COUNT(year) AS count';
 			$groupBy = array('year', 'record_id');
 			if ($sortOrder == 'count_alpha') {
@@ -757,7 +757,7 @@
 			} else {
 				$orderBy = 'text ASC';
 			}
-		}	
+		}
 
 		// Get the database.
 		$db = get_db();
@@ -777,7 +777,7 @@
 		$subQuery->where($whereRecordType);
 		$subQuery->where($whereSubset);
 		$subQuery->group($groupBy);
-		
+
 		$select = "SELECT *, " . $columns2 . " FROM (" . $subQuery . ") foo GROUP BY `text` ORDER BY " . $orderBy;
 
 		return $table->fetchObjects($select);
@@ -811,7 +811,7 @@
 			// Remove single entries if required
 			if ($hideSingleEntries && count(array_filter($facetElement, 'isNotSingleElement')) > FACETS_MINIMUM_AMOUNT) {
 				$facetElement = array_filter($facetElement, "isNotSingleElement");
-			}			
+			}
 
 			// Get current parameters to check if one is selected
 			if (!empty($_GET['advanced'])) {
@@ -851,7 +851,7 @@
 
 		return $html;
 	}
-	
+
 	/**
 	 * Return HTML Checkboxes associated with Array of facets values.
 	 *
@@ -881,7 +881,7 @@
 			// Remove single entries if required
 			if ($hideSingleEntries && count(array_filter($facetElement, 'isNotSingleElement')) > FACETS_MINIMUM_AMOUNT) {
 				$facetElement = array_filter($facetElement, "isNotSingleElement");
-			}			
+			}
 
 			$selectedTerms = array();
 			// Get current parameters to check if one or more are selected
@@ -914,13 +914,13 @@
 						$html .= "<div class=\"hidden\" id=\"facet-extra-values-" . $elementId . "\">";
 						$hidingSeparator = true;
 					}
-					
+
 					$url = getElementFieldUrl($recordType, $element_id, $name, $isDate);
 					$html .= "<div class=\"facet-checkbox\"><input type=\"checkbox\" value=\"" . trim($name) . "\" data-url=\"" . $url . "\"><label>" . trim(html_escape($name)) . ($showPopularity ? "<span class=\"facet-checkbox-count\"> (" . $count . ")</span>" : "") . "</label></div>";
 					$countCheckboxes++;
 				}
 			}
-			
+
 			if ($hidingSeparator) {
 				$html .= "</div>";
 				$html .= "<a id=\"facet-extra-link-" . $elementId . "\" class=\"facet-visibility-toggle\" data-element-id=\"" . $elementId . "\">" . __('show more') . "</a>";
@@ -939,7 +939,7 @@
 	 *
 	 * @param string $field_id The Element id.
 	 * @param string $value The Element value.
-	 * @param string $isDate 
+	 * @param string $isDate
 	 * @param string $oldValue The Element old value.
 	 * @return string The new URL.
 	 */
@@ -1042,7 +1042,7 @@
 		}
 		return false;
 	}
-	
+
 	function isNotSingleElement($count) {
 		if ($count > 1) return $count;
 	}
@@ -1050,11 +1050,11 @@
 	function isNotSingleExtra($element) {
 		if ($element['count'] > 1) return $element;
 	}
-	
+
 	function createWhereRecordTypeClause($recordType) {
 		return 'element_texts.record_type = \'' . ucfirst($recordType) . '\'';
 	}
-	
+
 	function createWhereSubsetClause($recordType, $sql) {
 		if ($sql != '') {
 			return $recordType . 's.id IN (' . $sql . ')';
@@ -1062,17 +1062,17 @@
 			return '1=1';
 		}
 	}
-	
+
 	function recordTypeActive($recordType, $elements) {
 		if (isset($elements)) {
 			foreach ($elements as $element) {
 				if (array_key_exists($recordType, $element)) return true;
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	function buildCollectionsArray($collections) {
 		$facetCollections = array();
 		foreach ($collections as $collection) {
@@ -1082,7 +1082,7 @@
 		}
 		return $facetCollections;
 	}
-	
+
 	function getSelectedCollection($collections) {
 		if (isset($_GET['collection'])) {
 			$collection_id = $_GET['collection'];
@@ -1091,7 +1091,7 @@
 			}
 		}
 	}
-	
+
 	function sortCollections($collections, $sortOrder = 'count_alpha') {
 		if ($sortOrder == 'count_alpha') {
 			array_multisort(array_column($collections, 'count'), SORT_DESC, array_column($collections, 'name'), SORT_ASC, $collections);
@@ -1119,7 +1119,7 @@
 			}
 		}
 	}
-	
+
 	function buildTagsArray($tags) {
 		$facetTags = array();
 		foreach ($tags as $tag) {
@@ -1129,7 +1129,7 @@
 		}
 		return $facetTags;
 	}
-		
+
 	function buildUsersArray($users) {
 		$facetUsers = array();
 		foreach ($users as $user) {
@@ -1139,7 +1139,7 @@
 		}
 		return $facetUsers;
 	}
-		
+
 	function getSelectedUser($users) {
 		if (isset($_GET['user'])) {
 			$user_id = $_GET['user'];
@@ -1160,16 +1160,16 @@
 		}
 		return $facetExtras;
 	}
-			
+
 	function getSelectedExtra($extras, $extraType) {
 		if (isset($_GET[$extraType])) {
 			$extra = $_GET[$extraType];
 			if (array_key_exists($extra, $extras)) {
-				return $extra;				
+				return $extra;
 			}
 		}
 	}
-	
+
 	function getExtraName($extraType, $value) {
 		if ($value == 0) {
 			return "Not " . ucfirst($extraType);
@@ -1177,7 +1177,7 @@
 			return ucfirst($extraType);
 		}
 	}
-	
+
 	function printHtml($html, $key, $facetsDirection, $label) {
 		if ($html != '') {
 			echo "<div id=\"facets-field-" . $key . "\" class=\"facets-container-" . $facetsDirection . "\">\n";
@@ -1186,11 +1186,11 @@
 			echo "</div>\n";
 		}
 	}
-	
+
 	function getRebuiltUrl($recordType, $params) {
 		return url($recordType . 's/browse', $params);
 	}
-	
+
 	function setPreviousParameters($params) {
 		if (isset($_GET['collection'])) $params['collection'] = $_GET['collection'];
 		if (isset($_GET['type'])) $params['type'] = $_GET['type'];
@@ -1199,7 +1199,7 @@
 		if (isset($_GET['public'])) $params['public'] = $_GET['public'];
 		if (isset($_GET['featured'])) $params['featured'] = $_GET['featured'];
 		if (isset($_GET['search'])) $params['search'] = $_GET['search'];
-		
+
 		return $params;
 	}
 ?>
